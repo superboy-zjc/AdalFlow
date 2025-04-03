@@ -4,7 +4,8 @@ from typing import Dict, Any, Optional, List, TypeVar, Union
 import logging
 from functools import lru_cache
 
-from jinja2 import Template, Environment, StrictUndefined, meta
+from jinja2 import Template, StrictUndefined, meta
+from jinja2.sandbox import SandboxedEnvironment
 
 
 from adalflow.core.default_prompt_template import DEFAULT_ADALFLOW_SYSTEM_PROMPT
@@ -213,7 +214,7 @@ def _convert_prompt_kwargs_to_str(prompt_kwargs: Dict) -> Dict[str, str]:
 def get_jinja2_environment():
     r"""Helper function for Prompt component to get the Jinja2 environment with the default settings."""
     try:
-        default_environment = Environment(
+        default_environment = SandboxedEnvironment(
             undefined=StrictUndefined,
             trim_blocks=True,
             keep_trailing_newline=True,
